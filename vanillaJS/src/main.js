@@ -6,6 +6,7 @@ window.addEventListener("DOMContentLoaded", () => {
   addBoardEventListeners();
   addSelectorEventListeners();
   addKeydownEventListeners();
+  addButtonEventListeners();
 })
 
 /**
@@ -64,3 +65,10 @@ const addKeydownEventListeners = () => {
   });
 }
 
+
+
+const addButtonEventListeners = () => {
+  document.getElementById("verifySolution").addEventListener("click", (e) => {
+    gameboard.validate();
+  })
+}

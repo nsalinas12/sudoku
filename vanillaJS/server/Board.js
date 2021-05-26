@@ -104,6 +104,39 @@ class Board {
     this.loadHTMLGrid();
   }
 
+  toJSON = () => {
+    return {board: this.gameCells.map((row) => row.map((cell) => cell.getValue())) };
+  }
+
+  validate = () => {
+
+    const encodeBoard = (board) => board.reduce((result, row, i) => result + `%5B${encodeURIComponent(row)}%5D${i === board.length -1 ? '' : '%2C'}`, '')
+
+    const encodeParams = (params) => 
+      Object.keys(params)
+      .map(key => key + '=' + `%5B${encodeBoard(params[key])}%5D`)
+      .join('&');
+
+    const data = this.toJSON();
+
+    let gameURL = "https://sugoku.herokuapp.com/validate";
+    let options = {
+      method: "POST",
+      body: encodeParams(data),
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded"
+      }
+    };
+
+    fetch(gameURL, options).then((res) => {
+      return res.json();
+    }).then((res) => {
+      console.log('here res', res);
+    }).catch((err) => {
+      console.log('err', err);
+    })
+  }
+
 }
 
 exports = Board;
