@@ -21,14 +21,24 @@ class Cell extends Component {
     });
   }
 
+  componentDidUpdate(){
+    NanoBus.on("cell-click", (data) => {
+      if( this.props.value > 0 && this.props.value.toString() === data.value.toString()) {
+        this.setState({ highlightCell: true });
+      } else if( this.state.highlightCell ) {
+        this.setState({ highlightCell: false });
+      }
+    });
+  }
+
   handleCellClick = () => {
 
     NanoBus.emit("cell-click", {
-      value: this.props.value
+      value: this.props.value,
     });
 
-    if( this.props.value === 0 ){
-      this.setState({ isEditable: true });
+    if( !this.props.locked ){
+      this.setState({ isEditable: !this.state.isEditable });
     }
   }
 
