@@ -6,8 +6,20 @@ class Cell {
     this.value = value;
     this.setFocus = setFocus;
     this.locked = value !== 0;
+    this.notes = new Set();
   }
   
+
+  toggleNote = (value) => {
+    if( this.notes.has(value) ){
+      console.log('here, removed');
+      this.notes.delete(value);
+    } else {
+      this.notes.add(value);
+    }
+    this.updateNotesHTML();
+  }
+
   getRow = () => {
     return this.row;
   }
@@ -23,7 +35,7 @@ class Cell {
   setValue = (newValue) => {
     if( !this.locked ){
     this.value = newValue;
-    this.updateHTML();
+    this.updateValueHTML();
     }
   }
 
@@ -32,39 +44,55 @@ class Cell {
   }
 
   toHTML = () => {
-    let htmlRep = document.createElement("div");
-    htmlRep.setAttribute("class", "grid-item");
-    htmlRep.setAttribute("data-value", this.value);
+
+    let htmlContainer = document.createElement("div");
+    htmlContainer.setAttribute("class", "grid-item");
+    htmlContainer.setAttribute("id", "grid-item-" + this.id);
+    htmlContainer.setAttribute("data-value", this.value);
+
+    //1. Create value container
+    let itemValueHTML = document.createElement("div");
+    itemValueHTML.setAttribute("class", "grid-item-value");
+    itemValueHTML.setAttribute("id", "grid-item-value-" + this.id);
     if( this.locked ){
-      htmlRep.classList.add("grid-item-locked");
+      itemValueHTML.classList.add("grid-item-locked");
     }
-    htmlRep.setAttribute("id", this.id);
-    htmlRep.value = this.value === 0 ? null : this.value;
-    htmlRep.textContent = this.value === 0 ? null : this.value;
+    itemValueHTML.value = this.value === 0 ? null : this.value;
+    itemValueHTML.textContent = this.value === 0 ? null : this.value;
+    htmlContainer.appendChild(itemValueHTML);
+
+    //2. Create notes container
+    let notesContainer = document.createElement("div");
+    notesContainer.setAttribute("class", "grid-item-notes");
+    notesContainer.setAttribute("id", "grid-item-notes-" + this.id);
+    notesContainer.textContent = Array.from(this.notes).join(", ");
+    htmlContainer.appendChild(notesContainer);
 
 
-    htmlRep.addEventListener("click", (e) => {
-
+    //3. Add event listener
+    htmlContainer.addEventListener("click", (e) => {
       Array.from(document.querySelectorAll(".grid-item-highlighted")).map((item) => item.classList.remove("grid-item-highlighted"));
       Array.from(document.querySelectorAll(".grid-item-selected")).map((item) => item.classList.remove("grid-item-selected"));
       this.setFocus(this);
       if( this.value !== 0 ){
         Array.from(document.querySelectorAll("[data-value='" + this.value +"']")).map((item) => item.classList.add("grid-item-highlighted"))
       }
-      htmlRep.classList.add("grid-item-selected");
+      htmlContainer.classList.add("grid-item-selected");
     });
-    return htmlRep;
+    return htmlContainer;
   }
 
-  updateHTML = () => {
-    let htmlRef = document.getElementById(this.id);
+  updateValueHTML = () => {
+    let htmlRef = document.getElementById("grid-item-" + this.id);
     htmlRef.setAttribute("data-value", this.value);
     htmlRef.value = this.value;
     htmlRef.textContent = this.value;
   }
 
-  
-
+  updateNotesHTML = () => {
+    let htmlRef = document.getElementById("grid-item-notes-" + this.id);
+    htmlRef.textContent = Array.from(this.notes).join(", ");
+  }
 }
 
 exports = Cell;

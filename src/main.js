@@ -1,4 +1,5 @@
 let gameboard = null;
+let noteMode = false;
 
 window.addEventListener("DOMContentLoaded", () => {  
   initializeSudokuGame();
@@ -41,10 +42,25 @@ const addKeydownEventListeners = () => {
     if(!isNaN(parseInt(e.key)) && parseInt(e.key) > 0 ){
       let value = parseInt(e.key);
       let focusedCell = gameboard.getFocus();
-      focusedCell.setValue(value);
+
+      if( noteMode ){
+        focusedCell.toggleNote(value);
+      } else {
+        focusedCell.setValue(value);
+      }
+
     } else if(e.key === "Backspace"){
       let focusedCell = gameboard.getFocus();
-      focusedCell.setValue(null);
+      focusedCell.setValue("");
+    } 
+    
+    
+    if( e.key === "Shift"){
+      noteMode = !noteMode;
+      let noteModeRef = document.getElementById("noteMode");
+      noteModeRef.textContent = "Note Mode: " + (noteMode ? "ON" : "OFF");
+      noteModeRef.setAttribute("class", (noteMode) ? "note-mode note-mode-on" : "note-mode note-mode-off" );
     }
   });
 }
+

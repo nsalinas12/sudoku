@@ -18,11 +18,24 @@
     min-height: 2.15em;
     max-height: 2.15em;
     display: flex;
+    flex-direction: row;
     justify-content: center;
     align-items: center;
     border: 1px solid black;
     font-size: 2em;
     color: rgba(0, 0, 0, 0.666);
+}
+
+.grid-item-value {
+    text-align: center;
+    position: relative;
+}
+
+.grid-item-notes {
+    background-color: orange;
+    font-size: 0.5em;
+    bottom: 0px;
+    position: relative;
 }
 
 .grid-item:nth-child(9n+3),
@@ -82,4 +95,20 @@
 
 .grid-item-highlighted {
     background-color: rgb(242, 255, 0);
+}
+
+.note-mode {
+    width: fit-content;
+    background-color: grey;
+    color: white;
+    padding: 8px;
+    border-radius: 8px;
+}
+
+.note-mode-off {
+    background-color: rgb(97, 19, 19);
+}
+
+.note-mode-on {
+    background-color: darkgreen;
 }
