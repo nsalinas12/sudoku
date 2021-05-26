@@ -67,11 +67,13 @@ class Cell {
     notesContainer.textContent = Array.from(this.notes).join(", ");
     htmlContainer.appendChild(notesContainer);
 
-
     //3. Add event listener
     htmlContainer.addEventListener("click", (e) => {
       Array.from(document.querySelectorAll(".grid-item-selected")).map((item) => item.classList.remove("grid-item-selected"));        
-      Array.from(document.querySelectorAll(".grid-item-highlighted")).map((item) => item.classList.remove("grid-item-highlighted"));
+      if(this.value !== 0){
+        Array.from(document.querySelectorAll(".grid-item-highlighted")).map((item) => item.classList.remove("grid-item-highlighted"));
+      }
+      
       this.setFocus(this);
       
       if( this.value !== 0 ){
@@ -84,6 +86,11 @@ class Cell {
   }
 
   updateValueHTML = () => {
+
+    if(this.notes.size > 0){
+      this.notes.clear();
+      this.updateNotesHTML();
+    }
 
     let containerRef = document.getElementById("grid-item-" + this.id);
     containerRef.setAttribute("data-value", this.value);
