@@ -2,6 +2,9 @@ import './App.css';
 import Board from './components/Board';
 import DifficultySelector from './components/DifficultySelector';
 import React, { Component } from 'react';
+import nanobus from 'nanobus';
+
+export const NanoBus = nanobus();
 
 class App extends Component {
   constructor(props) {

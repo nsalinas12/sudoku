@@ -1,15 +1,32 @@
 import React, { Component } from 'react'
 import "./Cell.css";
+import { NanoBus } from '../App.js';
 
 class Cell extends Component {
   constructor(props) {
     super(props);
     this.state = {
       isEditable: false,
+      highlightCell: false,
     }
   }
 
+  componentDidMount(){
+    NanoBus.on("cell-click", (data) => {
+      if( this.props.value > 0 && this.props.value === data.value) {
+        this.setState({ highlightCell: true });
+      } else if( this.state.highlightCell ) {
+        this.setState({ highlightCell: false });
+      }
+    });
+  }
+
   handleCellClick = () => {
+
+    NanoBus.emit("cell-click", {
+      value: this.props.value
+    });
+
     if( this.props.value === 0 ){
       this.setState({ isEditable: true });
     }
@@ -22,8 +39,13 @@ class Cell extends Component {
   }
 
   render() {
+
+    const cellClassnames = "Cell-container " + 
+      (this.props.locked ? "Cell-container-locked " : "") + 
+      (this.state.highlightCell ? "Cell-container-highlight " : "");
+
     return (
-      <div className={"Cell-container " + (this.props.locked ? "Cell-container-locked" : "")} onClick={this.handleCellClick}>
+      <div className={cellClassnames} onClick={this.handleCellClick}>
         {this.state.isEditable
           ? <input 
               autoFocus

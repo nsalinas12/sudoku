@@ -1,5 +1,5 @@
 .Cell-container {
-    background-color: rgb(211, 231, 240);
+    background-color: rgb(242, 246, 249);
     min-width: 50px;
     min-height: 50px;
     display: flex;
@@ -22,6 +22,10 @@
     background-color: rgb(169, 216, 238);
 }
 
+.Cell-container-highlight {
+    background-color: rgb(46, 166, 221);
+}
+
 .Cell-value {
     font-size: 35px;
 }
@@ -37,6 +41,11 @@
     text-align: center;
 }
 
+.Cell-input:hover {
+    cursor: pointer;
+}
+
 .Cell-input:focus-visible {
     outline: none;
+    cursor: text;
 }
