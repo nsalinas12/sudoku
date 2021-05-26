@@ -12,7 +12,6 @@ class Cell {
 
   toggleNote = (value) => {
     if( this.notes.has(value) ){
-      console.log('here, removed');
       this.notes.delete(value);
     } else {
       this.notes.add(value);
@@ -86,7 +85,7 @@ class Cell {
 
   updateValueHTML = () => {
 
-    let htmlRef = document.getElementById("grid-item-" + this.id);
+    let htmlRef = document.getElementById("grid-item-value-" + this.id);
     htmlRef.setAttribute("data-value", this.value);
     if( this.value === 0){
       htmlRef.classList.remove("grid-item-highlighted");
