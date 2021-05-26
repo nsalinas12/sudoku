@@ -1,0 +1,42 @@
+.Cell-container {
+    background-color: rgb(211, 231, 240);
+    min-width: 50px;
+    min-height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid black;
+}
+
+.Cell-container:hover {
+    cursor: pointer;
+}
+
+.Cell-container:nth-child(9n+3),
+.Cell-container:nth-child(9n+6) {
+    border-right: 3px solid black;
+}
+
+.Cell-container-locked {
+    font-weight: bold;
+    background-color: rgb(169, 216, 238);
+}
+
+.Cell-value {
+    font-size: 35px;
+}
+
+.Cell-input {
+    border: none;
+    background: none;
+    font-size: 35px;
+    padding: 0;
+    margin: 0;
+    width: 50px;
+    height: 50px;
+    text-align: center;
+}
+
+.Cell-input:focus-visible {
+    outline: none;
+}

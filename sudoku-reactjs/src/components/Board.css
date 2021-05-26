@@ -1,0 +1,15 @@
+.Board-container {
+    background-color: lightblue;
+    display: flex;
+    flex-direction: column;
+    border: 3px solid black;
+}
+
+.Board-row {
+    display: flex;
+}
+
+.Board-row:nth-child(9n+3),
+.Board-row:nth-child(9n+6) {
+    border-bottom: 3px solid black;
+}
