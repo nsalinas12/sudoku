@@ -93,7 +93,7 @@ class Cell {
       valueRef.value = null;
       valueRef.textContent = null;
     } else {   
-      containerRef.classList.add("grid-item-highlighted"); 
+      Array.from(document.querySelectorAll("[data-value='" + this.value + "']")).map((item) => item.classList.add("grid-item-highlighted")); 
       valueRef.value = this.value;
       valueRef.textContent = this.value;
     }
