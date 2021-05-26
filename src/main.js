@@ -37,7 +37,6 @@ const addSelectorEventListeners = () => {
 }
 
 const addKeydownEventListeners = () => {
-
   window.addEventListener("keydown", (e) => {
     if(!isNaN(parseInt(e.key)) && parseInt(e.key) > 0 ){
       let value = parseInt(e.key);
@@ -48,5 +47,4 @@ const addKeydownEventListeners = () => {
       focusedCell.setValue(null);
     }
   });
-
 }

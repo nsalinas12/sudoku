@@ -79,3 +79,7 @@
 .grid-item-selected {
     background-color: rgb(177, 177, 177);
 }
+
+.grid-item-highlighted {
+    background-color: rgb(242, 255, 0);
+}

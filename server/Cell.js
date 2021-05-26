@@ -34,6 +34,7 @@ class Cell {
   toHTML = () => {
     let htmlRep = document.createElement("div");
     htmlRep.setAttribute("class", "grid-item");
+    htmlRep.setAttribute("data-value", this.value);
     if( this.locked ){
       htmlRep.classList.add("grid-item-locked");
     }
@@ -43,8 +44,13 @@ class Cell {
 
 
     htmlRep.addEventListener("click", (e) => {
+
+      Array.from(document.querySelectorAll(".grid-item-highlighted")).map((item) => item.classList.remove("grid-item-highlighted"));
       Array.from(document.querySelectorAll(".grid-item-selected")).map((item) => item.classList.remove("grid-item-selected"));
       this.setFocus(this);
+      if( this.value !== 0 ){
+        Array.from(document.querySelectorAll("[data-value='" + this.value +"']")).map((item) => item.classList.add("grid-item-highlighted"))
+      }
       htmlRep.classList.add("grid-item-selected");
     });
     return htmlRep;
@@ -52,6 +58,7 @@ class Cell {
 
   updateHTML = () => {
     let htmlRef = document.getElementById(this.id);
+    htmlRef.setAttribute("data-value", this.value);
     htmlRef.value = this.value;
     htmlRef.textContent = this.value;
   }
