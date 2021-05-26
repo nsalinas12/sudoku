@@ -71,8 +71,10 @@ class Cell {
 
     //3. Add event listener
     htmlContainer.addEventListener("click", (e) => {
-      Array.from(document.querySelectorAll(".grid-item-highlighted")).map((item) => item.classList.remove("grid-item-highlighted"));
-      Array.from(document.querySelectorAll(".grid-item-selected")).map((item) => item.classList.remove("grid-item-selected"));
+      Array.from(document.querySelectorAll(".grid-item-selected")).map((item) => item.classList.remove("grid-item-selected"));    
+      if( this.value !== 0){
+        Array.from(document.querySelectorAll(".grid-item-highlighted")).map((item) => item.classList.remove("grid-item-highlighted"));
+      }
       this.setFocus(this);
       if( this.value !== 0 ){
         Array.from(document.querySelectorAll("[data-value='" + this.value +"']")).map((item) => item.classList.add("grid-item-highlighted"))
@@ -83,10 +85,18 @@ class Cell {
   }
 
   updateValueHTML = () => {
+
     let htmlRef = document.getElementById("grid-item-" + this.id);
     htmlRef.setAttribute("data-value", this.value);
-    htmlRef.value = this.value;
-    htmlRef.textContent = this.value;
+    if( this.value === 0){
+      htmlRef.classList.remove("grid-item-highlighted");
+      htmlRef.value = null;
+      htmlRef.textContent = null;
+    } else {    
+      htmlRef.value = this.value;
+      htmlRef.textContent = this.value;
+      htmlRef.classList.add("grid-item-highlighted");
+    }
   }
 
   updateNotesHTML = () => {

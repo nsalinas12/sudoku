@@ -51,7 +51,7 @@ const addKeydownEventListeners = () => {
 
     } else if(e.key === "Backspace"){
       let focusedCell = gameboard.getFocus();
-      focusedCell.setValue("");
+      focusedCell.setValue(0);
     } 
     
     
