@@ -19,7 +19,7 @@ class App extends Component {
   render() { 
     return (
       <div className="App-container">
-        <h1>Sudoku Board</h1>
+        <h1 className="App-title">Sudoku Board</h1>
         <DifficultySelector handleChange={this.handleDifficultyChange} />
         <Board level={this.state.level} />
       </div>

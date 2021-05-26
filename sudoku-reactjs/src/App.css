@@ -2,4 +2,9 @@
     display: flex;
     flex-direction: column;
     width: fit-content;
+    margin: auto;
+}
+
+.App-title {
+    text-align: center;
 }

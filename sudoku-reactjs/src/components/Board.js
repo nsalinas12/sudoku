@@ -6,7 +6,7 @@ class Board extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      board: [[]],
+      board: [],
     }
   }
 
@@ -25,7 +25,14 @@ class Board extends Component {
     fetch(gameURL)
       .then((res) => res.json())
       .then((gameboard) => {
-        this.setState({ board: gameboard.board });
+
+        let boardData = gameboard.board;
+        let updatedGameboard = boardData.map((row, rowIndex) => {
+          return row.map((cellValue, colIndex) => {
+            return { row: rowIndex, col: colIndex, value: cellValue, locked: cellValue !== 0}
+          });
+        });
+        this.setState({ board: updatedGameboard });
       })
       .catch((err) => {
         console.log("err", err);
@@ -35,23 +42,24 @@ class Board extends Component {
   handleCellChange = (rowIndex, colIndex, newValue) => {
     let currentBoard = this.state.board;
     let selectedRow = currentBoard[rowIndex];
-    selectedRow[colIndex] = newValue
+    let currentCellData = selectedRow[colIndex];
+    let updatedCellData = {...currentCellData, value: newValue};
+    selectedRow[colIndex] = updatedCellData
     currentBoard[rowIndex] = selectedRow;
     this.setState({ board: currentBoard });
   }
 
   render() { 
-
-
     const loadGrid = () => {
-
       let gridItems = this.state.board.map((row, rowIdx) => {
-        let cellItems = row.map((cellValue, colIdx) => {
+        let cellItems = row.map((cellData) => {
+          const { row, col, value, locked } = cellData;
           return <Cell 
-                    rowIndex={rowIdx}
-                    colIndex={colIdx}
-                    value={cellValue} 
-                    key={"cell-" + rowIdx + "-" + colIdx} 
+                    rowIndex={row}
+                    colIndex={col}
+                    locked={locked}
+                    value={value} 
+                    key={"cell-" + row + "-" + col} 
                     handleCellChange={this.handleCellChange} 
                     />
         });

@@ -10,7 +10,7 @@ class Cell extends Component {
   }
 
   handleCellClick = () => {
-    if( this.props.value !== 0 ){
+    if( this.props.value === 0 ){
       this.setState({ isEditable: true });
     }
   }
@@ -21,9 +21,9 @@ class Cell extends Component {
     this.props.handleCellChange(rowIndex, colIndex, newCellValue);
   }
 
-  render() { 
+  render() {
     return (
-      <div key={this.props.key} className={"Cell-container " + (this.props.value !== 0 ? "Cell-container-locked" : "")} onClick={this.handleCellClick}>
+      <div className={"Cell-container " + (this.props.locked ? "Cell-container-locked" : "")} onClick={this.handleCellClick}>
         {this.state.isEditable
           ? <input 
               autoFocus

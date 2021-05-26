@@ -1,0 +1,10 @@
+.DifficultySelector-container {
+    width: fit-content;
+    display: flex;
+    height: fit-content;
+    align-items: center;
+}
+
+.DifficultySelector-title {
+    margin-right: 8px;
+}
