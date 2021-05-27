@@ -1,9 +1,9 @@
-.NoteSwitch-row {
+.Switch-row {
     display: flex;
     align-items: center;
     margin-bottom: 8px;
 }
 
-.NoteSwitch-text {
+.Switch-text {
     margin-right: 8px;
 }

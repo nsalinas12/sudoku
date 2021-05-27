@@ -50,7 +50,6 @@ class Board extends Component {
   }
 
   handleNoteChange = (rowIndex, colIndex, newValue ) => {
-    console.log('here in parent', rowIndex, colIndex, newValue);
     let currentBoard = this.state.board;
     let selectedRow = currentBoard[rowIndex];
     let currentCellData = selectedRow[colIndex];
@@ -68,12 +67,14 @@ class Board extends Component {
   }
 
   render() { 
+
+    console.log('here', this.props)
+
     const loadGrid = () => {
       let gridItems = this.state.board.map((row, rowIdx) => {
         let cellItems = row.map((cellData) => {
           const { row, col, value, locked, notes } = cellData;
           return <Cell 
-                    noteMode={this.props.noteMode}
                     notes={notes}
                     rowIndex={row}
                     colIndex={col}
@@ -82,19 +83,17 @@ class Board extends Component {
                     key={"cell-" + row + "-" + col} 
                     handleCellChange={this.handleCellChange} 
                     handleNoteChange={this.handleNoteChange}
+                    editNotesMode={this.props.editNotesMode}
+                    showAllNotes={this.props.showAllNotes}
                     />
         });
         return <div className="Board-row" key={"row-" + rowIdx}>{cellItems}</div>
       });
       return <div className="Board-container">{gridItems}</div>
     }
-
-
-
     let gridBoard = loadGrid();
-
     return (
-      <div>{gridBoard}</div>
+      <div className="Board-grid">{gridBoard}</div>
     );
   }
 }

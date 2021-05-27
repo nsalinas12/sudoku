@@ -1,9 +1,10 @@
 import './App.css';
 import Board from './components/Board';
 import DifficultySelector from './components/DifficultySelector';
-import NoteSwitch from './components/NoteSwitch.js';
+import EditNotesSwitch from './components/EditNotesSwitch.js';
 import React, { Component } from 'react';
 import nanobus from 'nanobus';
+import ShowAllNotesSwitch from './components/ShowAllNotesSwitch';
 
 export const NanoBus = nanobus();
 
@@ -13,7 +14,8 @@ class App extends Component {
     this.state ={
       level: "easy",
       selectedCell: undefined,
-      noteMode: false,
+      editNotesMode: false,
+      showAllNotes: false,
     };
   }
 
@@ -28,8 +30,12 @@ class App extends Component {
     this.setState({ level: e.target.value });
   }
 
-  handleSwitchChange = () => {
-    this.setState({ noteMode: !this.state.noteMode });
+  handleEditNotes = () => {
+    this.setState({ editNotesMode: !this.state.editNotesMode });
+  }
+
+  handleShowAllNotes = () => {
+    this.setState({ showAllNotes: !this.state.showAllNotes });
   }
 
   render() { 
@@ -38,10 +44,12 @@ class App extends Component {
         <h1 className="App-title">Sudoku Board</h1>
         <div className="App-button-row">
           <DifficultySelector handleChange={this.handleDifficultyChange} />
-          <NoteSwitch noteMode={this.state.noteMode} handleSwitchChange={this.handleSwitchChange}/>
         </div>
-        <Board level={this.state.level} noteMode={this.state.noteMode} />
-        {JSON.stringify(this.state.selectedCell)}
+        <Board level={this.state.level} editNotesMode={this.state.editNotesMode} showAllNotes={this.state.showAllNotes} />
+        <div className="App-footer">
+          <EditNotesSwitch checked={this.state.editNotesMode} handleChange={this.handleEditNotes} />
+          <ShowAllNotesSwitch checked={this.state.showAllNotes} handleChange={this.handleShowAllNotes} />
+        </div>
       </div>
     );
   }

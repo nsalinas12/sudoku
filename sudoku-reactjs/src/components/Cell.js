@@ -34,15 +34,17 @@ class Cell extends Component {
 
   handleCellClick = () => {
 
+    console.log('here clicked cell', this.props);
+
     NanoBus.emit("cell-click", {
       value: this.props.value,
       row: this.props.rowIndex,
       col: this.props.colIndex
     });
 
-    if( !this.props.locked ){
+    // if( !this.props.locked ){
       this.setState({ showInput: !this.state.showInput });
-    }
+    // }
   }
 
   handleInputChange = (e) =>  {
@@ -70,10 +72,7 @@ class Cell extends Component {
                   type="text" 
                   value={this.props.value === 0 ? "" : this.props.value} 
                 ></input>
-              : ( this.state.isFocus 
-                  ? <NoteInput row={this.props.rowIndex} col={this.props.colIndex} notes={this.props.notes} handleNoteChange={this.props.handleNoteChange} />
-                  : null )
-            )
+              : <NoteInput row={this.props.rowIndex} col={this.props.colIndex} notes={this.props.notes} handleNoteChange={this.props.handleNoteChange} /> )
           : <div className="Cell-value">{this.props.value === 0 ? "" : this.props.value}</div>
         }
       </div>
