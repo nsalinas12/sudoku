@@ -68,8 +68,6 @@ class Board extends Component {
 
   render() { 
 
-    console.log('here', this.props)
-
     const loadGrid = () => {
       let gridItems = this.state.board.map((row, rowIdx) => {
         let cellItems = row.map((cellData) => {
