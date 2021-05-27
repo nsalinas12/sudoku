@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import "./Cell.css";
 import { NanoBus } from '../App.js';
 import NoteInput from './NoteInput.js';
+import NumberInput from './NumberInput.js';
 
 class Cell extends Component {
   constructor(props) {
@@ -33,18 +34,11 @@ class Cell extends Component {
   }
 
   handleCellClick = () => {
-
-    console.log('here clicked cell', this.props);
-
     NanoBus.emit("cell-click", {
       value: this.props.value,
       row: this.props.rowIndex,
       col: this.props.colIndex
     });
-
-    // if( !this.props.locked ){
-      this.setState({ showInput: !this.state.showInput });
-    // }
   }
 
   handleInputChange = (e) =>  {
@@ -55,26 +49,24 @@ class Cell extends Component {
 
   render() {
 
+    const { showAllNotes, editNotesMode, locked } = this.props;
     const cellClassnames = "Cell-container " + 
-      (this.props.locked ? "Cell-container-locked " : "") + 
+      (locked ? "Cell-container-locked " : "") + 
       (this.state.highlightCell ? "Cell-container-highlight " : "");
+
+    if( locked || this.props.value !== 0){
+      return (
+        <div className={cellClassnames} onClick={this.handleCellClick}>
+          <div className="Cell-value">{this.props.value}</div>
+        </div>
+      );
+    }
 
     return (
       <div className={cellClassnames} onClick={this.handleCellClick}>
-        {this.state.showInput
-          ? ( !this.props.noteMode 
-              ? <input 
-                  autoFocus
-                  className="Cell-input" 
-                  minLength={0}
-                  maxLength={1}
-                  onChange={this.handleInputChange}
-                  type="text" 
-                  value={this.props.value === 0 ? "" : this.props.value} 
-                ></input>
-              : <NoteInput row={this.props.rowIndex} col={this.props.colIndex} notes={this.props.notes} handleNoteChange={this.props.handleNoteChange} /> )
-          : <div className="Cell-value">{this.props.value === 0 ? "" : this.props.value}</div>
-        }
+        {showAllNotes 
+          ? <NoteInput row={this.props.rowIndex} col={this.props.colIndex} notes={this.props.notes} editNotesMode={editNotesMode} handleNoteChange={this.props.handleNoteChange} /> 
+          : <NumberInput handleInputChange={this.handleInputChange} value={this.props.value} /> }
       </div>
     );
   }

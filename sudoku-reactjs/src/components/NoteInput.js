@@ -3,10 +3,6 @@ import "./NoteInput.css";
 
 class NoteInput extends Component {
 
-  constructor(props){
-    super(props);
-  }
-
   // componentWillMount deprecated in React 16.3
   componentDidMount(){
     document.addEventListener("keydown", this.handleNoteChange);
