@@ -20,6 +20,13 @@ class App extends Component {
   }
 
   componentDidMount(){
+
+    document.addEventListener("keydown", (e) => {
+      if( e.key === "Shift"){
+        this.setState({ showAllNotes: !this.state.showAllNotes });
+      }
+    })
+
     NanoBus.on("cell-click", data => {
       this.setState({ selectedCell: data });
     })
