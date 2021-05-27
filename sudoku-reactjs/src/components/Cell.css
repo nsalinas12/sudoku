@@ -30,6 +30,10 @@
     font-size: 35px;
 }
 
+.Cell-container-focus {
+    background-color: rgb(81, 194, 219);
+}
+
 .Cell-input {
     border: none;
     background: none;

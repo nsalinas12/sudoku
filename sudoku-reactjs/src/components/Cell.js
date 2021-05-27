@@ -52,12 +52,19 @@ class Cell extends Component {
     const { showAllNotes, editNotesMode, locked } = this.props;
     const cellClassnames = "Cell-container " + 
       (locked ? "Cell-container-locked " : "") + 
+      (this.state.isFocus ? "Cell-container-focus " : "") + 
       (this.state.highlightCell ? "Cell-container-highlight " : "");
 
-    if( locked || this.props.value !== 0){
+    if( locked ){
       return (
         <div className={cellClassnames} onClick={this.handleCellClick}>
           <div className="Cell-value">{this.props.value}</div>
+        </div>
+      );
+    } else if ( !locked && this.props.value > 0 ){
+      return (
+        <div className={cellClassnames} onClick={this.handleCellClick}>
+          <NumberInput handleInputChange={this.handleInputChange} value={this.props.value} />
         </div>
       );
     }
@@ -65,7 +72,7 @@ class Cell extends Component {
     return (
       <div className={cellClassnames} onClick={this.handleCellClick}>
         {showAllNotes 
-          ? <NoteInput row={this.props.rowIndex} col={this.props.colIndex} notes={this.props.notes} editNotesMode={editNotesMode} handleNoteChange={this.props.handleNoteChange} /> 
+          ? <NoteInput isFocus={this.state.isFocus} row={this.props.rowIndex} col={this.props.colIndex} notes={this.props.notes} editNotesMode={editNotesMode} handleNoteChange={this.props.handleNoteChange} /> 
           : <NumberInput handleInputChange={this.handleInputChange} value={this.props.value} /> }
       </div>
     );
