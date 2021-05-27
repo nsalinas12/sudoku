@@ -8,3 +8,8 @@
 .App-title {
     text-align: center;
 }
+
+.App-button-row {
+    display: flex;
+    justify-content: space-between;
+}

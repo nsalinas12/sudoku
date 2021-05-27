@@ -29,7 +29,7 @@ class Board extends Component {
         let boardData = gameboard.board;
         let updatedGameboard = boardData.map((row, rowIndex) => {
           return row.map((cellValue, colIndex) => {
-            return { row: rowIndex, col: colIndex, value: cellValue, locked: cellValue !== 0}
+            return { row: rowIndex, col: colIndex, value: cellValue, locked: cellValue !== 0, notes: new Set()}
           });
         });
         this.setState({ board: updatedGameboard });
@@ -49,18 +49,39 @@ class Board extends Component {
     this.setState({ board: currentBoard });
   }
 
+  handleNoteChange = (rowIndex, colIndex, newValue ) => {
+    console.log('here in parent', rowIndex, colIndex, newValue);
+    let currentBoard = this.state.board;
+    let selectedRow = currentBoard[rowIndex];
+    let currentCellData = selectedRow[colIndex];
+    let currentNoteData = currentCellData["notes"];
+    if( currentNoteData.has(newValue.toString()) ){
+      currentNoteData.delete(newValue.toString())
+    } else {
+      currentNoteData.add(newValue.toString());
+    }
+
+    currentCellData["notes"] = currentNoteData;
+    selectedRow[colIndex] = currentCellData;
+    currentBoard[rowIndex] = selectedRow;
+    this.setState({ board: currentBoard });
+  }
+
   render() { 
     const loadGrid = () => {
       let gridItems = this.state.board.map((row, rowIdx) => {
         let cellItems = row.map((cellData) => {
-          const { row, col, value, locked } = cellData;
+          const { row, col, value, locked, notes } = cellData;
           return <Cell 
+                    noteMode={this.props.noteMode}
+                    notes={notes}
                     rowIndex={row}
                     colIndex={col}
                     locked={locked}
                     value={value} 
                     key={"cell-" + row + "-" + col} 
                     handleCellChange={this.handleCellChange} 
+                    handleNoteChange={this.handleNoteChange}
                     />
         });
         return <div className="Board-row" key={"row-" + rowIdx}>{cellItems}</div>

@@ -1,28 +1,29 @@
 import React, { Component } from 'react'
 import "./Cell.css";
 import { NanoBus } from '../App.js';
+import NoteInput from './NoteInput.js';
 
 class Cell extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isEditable: false,
+      showInput: false,
       highlightCell: false,
+      isFocus: false,
     }
   }
 
   componentDidMount(){
     NanoBus.on("cell-click", (data) => {
-      if( this.props.value > 0 && this.props.value === data.value) {
-        this.setState({ highlightCell: true });
-      } else if( this.state.highlightCell ) {
-        this.setState({ highlightCell: false });
+      //1. Set focus of current selected cell
+      const { col, row } = data;
+      if( col.toString() === this.props.colIndex.toString() && row.toString() === this.props.rowIndex.toString() ){
+        this.setState({ isFocus: true });
+      } else if ( this.state.isFocus ){
+        this.setState({ isFocus: false });
       }
-    });
-  }
 
-  componentDidUpdate(){
-    NanoBus.on("cell-click", (data) => {
+      //2. Highlight all other matching cells
       if( this.props.value > 0 && this.props.value.toString() === data.value.toString()) {
         this.setState({ highlightCell: true });
       } else if( this.state.highlightCell ) {
@@ -35,10 +36,12 @@ class Cell extends Component {
 
     NanoBus.emit("cell-click", {
       value: this.props.value,
+      row: this.props.rowIndex,
+      col: this.props.colIndex
     });
 
     if( !this.props.locked ){
-      this.setState({ isEditable: !this.state.isEditable });
+      this.setState({ showInput: !this.state.showInput });
     }
   }
 
@@ -56,16 +59,21 @@ class Cell extends Component {
 
     return (
       <div className={cellClassnames} onClick={this.handleCellClick}>
-        {this.state.isEditable
-          ? <input 
-              autoFocus
-              className="Cell-input" 
-              minLength={0}
-              maxLength={1}
-              onChange={this.handleInputChange}
-              type="text" 
-              value={this.props.value === 0 ? "" : this.props.value} 
-            ></input>
+        {this.state.showInput
+          ? ( !this.props.noteMode 
+              ? <input 
+                  autoFocus
+                  className="Cell-input" 
+                  minLength={0}
+                  maxLength={1}
+                  onChange={this.handleInputChange}
+                  type="text" 
+                  value={this.props.value === 0 ? "" : this.props.value} 
+                ></input>
+              : ( this.state.isFocus 
+                  ? <NoteInput row={this.props.rowIndex} col={this.props.colIndex} notes={this.props.notes} handleNoteChange={this.props.handleNoteChange} />
+                  : null )
+            )
           : <div className="Cell-value">{this.props.value === 0 ? "" : this.props.value}</div>
         }
       </div>
