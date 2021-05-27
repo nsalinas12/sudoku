@@ -33,7 +33,6 @@ class App extends Component {
   }
 
   handleDifficultyChange = (e) => {
-    console.log('e', e.target.value);
     this.setState({ level: e.target.value });
   }
 
