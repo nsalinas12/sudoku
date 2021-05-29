@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Cell from "./Cell.js";
 import "./Board.css";
+import { NanoBus } from '../App.js';
 
 class Board extends Component {
   constructor(props) {
@@ -53,6 +54,13 @@ class Board extends Component {
     } else {
       updatedValue = newValue.toString().slice(-1);
     }
+
+    NanoBus.emit("cell-click", {
+      value: updatedValue,
+      row: rowIndex,
+      col: colIndex
+    });
+
     let updatedCellData = {...currentCellData, value: updatedValue };
     selectedRow[colIndex] = updatedCellData
     currentBoard[rowIndex] = selectedRow;
