@@ -10,21 +10,12 @@ class Cell extends Component {
     this.state = {
       showInput: false,
       highlightCell: false,
-      isFocus: false,
     }
   }
 
   componentDidMount(){
     NanoBus.on("cell-click", (data) => {
-      //1. Set focus of current selected cell
-      const { col, row } = data;
-      if( col.toString() === this.props.colIndex.toString() && row.toString() === this.props.rowIndex.toString() ){
-        this.setState({ isFocus: true });
-      } else if ( this.state.isFocus ){
-        this.setState({ isFocus: false });
-      }
-
-      //2. Highlight all other matching cells
+      //Highlight all other matching cells
       if( this.props.value > 0 && this.props.value.toString() === data.value.toString()) {
         this.setState({ highlightCell: true });
       } else if( this.state.highlightCell ) {
@@ -34,6 +25,7 @@ class Cell extends Component {
   }
 
   handleCellClick = () => {
+    this.props.onCellClick(this.props.id)
     NanoBus.emit("cell-click", {
       value: this.props.value,
       row: this.props.rowIndex,
@@ -72,7 +64,7 @@ class Cell extends Component {
     return (
       <div className={cellClassnames} onClick={this.handleCellClick}>
         {showAllNotes 
-          ? <NoteInput isFocus={this.state.isFocus} row={this.props.rowIndex} col={this.props.colIndex} notes={this.props.notes} editNotesMode={editNotesMode} handleNoteChange={this.props.handleNoteChange} /> 
+          ? <NoteInput cellID={this.props.id} focus={this.props.focus} row={this.props.rowIndex} col={this.props.colIndex} notes={this.props.notes} editNotesMode={editNotesMode} handleNoteChange={this.props.handleNoteChange} /> 
           : <NumberInput handleInputChange={this.handleInputChange} value={this.props.value} /> }
       </div>
     );

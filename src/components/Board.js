@@ -7,6 +7,7 @@ class Board extends Component {
     super(props);
     this.state = {
       board: [],
+      focus: null,
     }
   }
 
@@ -18,6 +19,10 @@ class Board extends Component {
     if( prevProps.level !== this.props.level ){
       this.fetchGameBoard();
     }
+  }
+
+  updateFocus = (ref) => {
+    this.setState({ focus: ref });
   }
 
   fetchGameBoard = () => {
@@ -79,6 +84,9 @@ class Board extends Component {
                     locked={locked}
                     value={value} 
                     key={"cell-" + row + "-" + col} 
+                    id={"cell-" + row + "-" + col} 
+                    focus={this.state.focus}
+                    onCellClick={this.updateFocus}
                     handleCellChange={this.handleCellChange} 
                     handleNoteChange={this.handleNoteChange}
                     editNotesMode={this.props.editNotesMode}
@@ -91,7 +99,10 @@ class Board extends Component {
     }
     let gridBoard = loadGrid();
     return (
-      <div className="Board-grid">{gridBoard}</div>
+      <>
+        {JSON.stringify(this.state.focus)}
+        <div className="Board-grid">{gridBoard}</div>
+      </>
     );
   }
 }
