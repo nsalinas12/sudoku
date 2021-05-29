@@ -7,7 +7,7 @@ class Board extends Component {
     super(props);
     this.state = {
       board: [],
-      focus: null,
+      focus: undefined,
     }
   }
 
@@ -47,7 +47,13 @@ class Board extends Component {
     let currentBoard = this.state.board;
     let selectedRow = currentBoard[rowIndex];
     let currentCellData = selectedRow[colIndex];
-    let updatedCellData = {...currentCellData, value: newValue};
+    let updatedValue = 0;
+    if( currentCellData["value"] === 0 ){
+      updatedValue = newValue;
+    } else {
+      updatedValue = newValue.toString().slice(-1);
+    }
+    let updatedCellData = {...currentCellData, value: updatedValue };
     selectedRow[colIndex] = updatedCellData
     currentBoard[rowIndex] = selectedRow;
     this.setState({ board: currentBoard });
@@ -99,7 +105,6 @@ class Board extends Component {
     let gridBoard = loadGrid();
     return (
       <>
-        {JSON.stringify(this.state.focus)}
         <div className="Board-grid">{gridBoard}</div>
       </>
     );
