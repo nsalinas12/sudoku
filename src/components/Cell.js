@@ -21,6 +21,10 @@ class Cell extends Component {
         this.setState({ highlightCell: false });
       }
     });
+
+    NanoBus.on("board-reset", () => {
+      this.setState({ highlightCell: false });
+    });
   }
 
   handleCellClick = () => {

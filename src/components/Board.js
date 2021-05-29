@@ -19,6 +19,8 @@ class Board extends Component {
   componentDidUpdate(prevProps){
     if( prevProps.level !== this.props.level ){
       this.fetchGameBoard();
+      NanoBus.emit("board-reset");
+      this.setState({ focus: undefined });
     }
   }
 
