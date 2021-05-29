@@ -14,7 +14,6 @@ class NoteInput extends Component {
   }
 
   handleNoteChange = (e) => {
-
     if(this.props.cellID === this.props.focus){
       let toggledValue = e.key;
       let isNumber = !isNaN(parseInt(e.key));
@@ -26,13 +25,12 @@ class NoteInput extends Component {
   }
 
   render() { 
-
     let noteElements = Array.apply(null, Array(9)).map((_, idx) => {
       let val = idx + 1;
       if( this.props.notes.has(val.toString()) ){
         return <div key={val} className="NoteInput-circle NoteInput-circle-filled">{val.toString()}</div>
       } else {
-        return <div key={val} className="NoteInput-circle">{val.toString()}</div>
+        return <div key={val} className="NoteInput-circle NoteInput-circle-hidden">{val.toString()}</div>
       }
     });
 

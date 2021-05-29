@@ -21,8 +21,8 @@ class Board extends Component {
     }
   }
 
-  updateFocus = (ref) => {
-    this.setState({ focus: ref });
+  updateFocus = (cellID) => {
+    this.setState({ focus: cellID });
   }
 
   fetchGameBoard = () => {
@@ -30,7 +30,6 @@ class Board extends Component {
     fetch(gameURL)
       .then((res) => res.json())
       .then((gameboard) => {
-
         let boardData = gameboard.board;
         let updatedGameboard = boardData.map((row, rowIndex) => {
           return row.map((cellValue, colIndex) => {

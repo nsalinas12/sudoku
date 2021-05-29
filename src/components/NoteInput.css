@@ -12,10 +12,15 @@
     border-radius: 20%;
     font-size: 80%;
     text-align: center;
+    user-select: none;
 }
 
 .NoteInput-circle-filled {
     background-color: red;
+}
+
+.NoteInput-circle-hidden {
+    visibility: hidden;
 }
 
 .NoteInput-circle-selected {

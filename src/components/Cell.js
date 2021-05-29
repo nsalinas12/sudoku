@@ -41,10 +41,10 @@ class Cell extends Component {
 
   render() {
 
-    const { showAllNotes, editNotesMode, locked } = this.props;
+    const { editNotesMode, locked } = this.props;
     const cellClassnames = "Cell-container " + 
       (locked ? "Cell-container-locked " : "") + 
-      (this.state.isFocus ? "Cell-container-focus " : "") + 
+      (this.props.focus === this.props.id ? "Cell-container-focus " : "") + 
       (this.state.highlightCell ? "Cell-container-highlight " : "");
 
     if( locked ){
@@ -63,7 +63,7 @@ class Cell extends Component {
 
     return (
       <div className={cellClassnames} onClick={this.handleCellClick}>
-        {showAllNotes 
+        {this.props.editNotesMode 
           ? <NoteInput cellID={this.props.id} focus={this.props.focus} row={this.props.rowIndex} col={this.props.colIndex} notes={this.props.notes} editNotesMode={editNotesMode} handleNoteChange={this.props.handleNoteChange} /> 
           : <NumberInput handleInputChange={this.handleInputChange} value={this.props.value} /> }
       </div>
