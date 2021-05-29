@@ -40,10 +40,10 @@ class Cell extends Component {
 
   render() {
 
-    const { editNotesMode, locked } = this.props;
+    const { editNotesMode, locked, focus, id } = this.props;
     const cellClassnames = "Cell-container " + 
       (locked ? "Cell-container-locked " : "") + 
-      (this.props.focus === this.props.id ? "Cell-container-focus " : "") + 
+      (focus === id ? "Cell-container-focus " : "") + 
       (this.state.highlightCell ? "Cell-container-highlight " : "");
 
     if( locked ){
