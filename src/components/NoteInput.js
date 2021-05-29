@@ -4,7 +4,7 @@ import "./NoteInput.css";
 class NoteInput extends Component {
 
   componentDidMount(){
-    if( this.props.focus ){
+    if( this.props.focus === this.props.id ){
       document.addEventListener("keydown", this.handleNoteChange);
     }
   }
@@ -14,7 +14,7 @@ class NoteInput extends Component {
   }
 
   handleNoteChange = (e) => {
-    if(this.props.cellID === this.props.focus){
+    if(this.props.id === this.props.focus){
       let toggledValue = e.key;
       let isNumber = !isNaN(parseInt(e.key));
       const {row, col} = this.props;
