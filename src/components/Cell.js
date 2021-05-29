@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
 import "./Cell.css";
 import { NanoBus } from '../App.js';
-import NoteInput from './NoteInput.js';
-import NumberInput from './NumberInput.js';
+import CellInput from './CellInput.js';
 
 class Cell extends Component {
   constructor(props) {
@@ -53,19 +52,20 @@ class Cell extends Component {
           <div className="Cell-value">{this.props.value}</div>
         </div>
       );
-    } else if ( !locked && this.props.value > 0 ){
-      return (
-        <div className={cellClassnames} onClick={this.handleCellClick}>
-          <NumberInput handleInputChange={this.handleInputChange} value={this.props.value} />
-        </div>
-      );
-    }
+    } 
 
     return (
       <div className={cellClassnames} onClick={this.handleCellClick}>
-        {this.props.editNotesMode 
-          ? <NoteInput cellID={this.props.id} focus={this.props.focus} row={this.props.rowIndex} col={this.props.colIndex} notes={this.props.notes} editNotesMode={editNotesMode} handleNoteChange={this.props.handleNoteChange} /> 
-          : <NumberInput handleInputChange={this.handleInputChange} value={this.props.value} /> }
+        <CellInput 
+          id={this.props.id}
+          row={this.props.rowIndex} 
+          col={this.props.colIndex} 
+          focus={this.props.focus} 
+          notes={this.props.notes} 
+          editNotesMode={editNotesMode} 
+          handleNoteChange={this.props.handleNoteChange} 
+          value={this.props.value}
+          handleInputChange={this.handleInputChange}  />
       </div>
     );
   }
